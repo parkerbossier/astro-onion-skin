@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
-import logo from './logo.svg';
 import styles from './App.module.css';
 import { SelectImages } from './SelectImages';
 import { Stage } from './Stage';
 
 const App = () => {
 	const [bgImageSrc, setBgImageSrc] = useState('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVQYV2NgYAAAAAMAAWgmWQ0AAAAASUVORK5CYII=');
+
+	const [fgImageLeft, setFgImageLeft] = useState(0);
+	const [fgImageRotation, setFgImageRotation] = useState(0);
 	const [fgImageSrc, setFgImageSrc] = useState('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVQYV2NgYAAAAAMAAWgmWQ0AAAAASUVORK5CYII=');
+	const [fgImageTop, setFgImageTop] = useState(0);
 
 	const [showSelectImages, setShowSelectImages] = useState(false);
-
-	const [fgRotation, setFgRotation] = useState(0);
 
 	return (
 		<div className={styles.root}>
@@ -18,8 +19,13 @@ const App = () => {
 				<div className={styles.stage}>
 					<Stage
 						bgImageSrc={bgImageSrc}
-						fgImageRotation={fgRotation}
+						fgImageLeft={fgImageLeft}
+						fgImageRotation={fgImageRotation}
 						fgImageSrc={fgImageSrc}
+						fgImageTop={fgImageTop}
+						onChangeFgImageLeft={setFgImageLeft}
+						onChangeFgImageRotation={setFgImageRotation}
+						onChangeFgImageTop={setFgImageTop}
 					/>
 				</div>
 			</div>
@@ -35,15 +41,17 @@ const App = () => {
 					className={styles.rotation}
 					max={45}
 					min={-45}
-					onChange={e => { setFgRotation(parseInt(e.currentTarget.value, 10)); }}
+					onChange={e => { setFgImageRotation(parseInt(e.currentTarget.value, 10)); }}
 					step={.5}
 					type="range"
-					value={fgRotation}
+					value={fgImageRotation}
 				/>
 
 				<button
 					onClick={() => {
-						setFgRotation(0);
+						setFgImageLeft(0);
+						setFgImageRotation(0);
+						setFgImageTop(0);
 					}}
 				>
 					Reset
@@ -52,8 +60,8 @@ const App = () => {
 				<br />
 
 				<div>
-					Move camera {Math.abs(fgRotation)}&deg;
-					{fgRotation < 0 ? 'counterclockwise' : 'clockwise'}
+					Move camera {Math.abs(Math.round(fgImageRotation))}&deg;
+					{fgImageRotation < 0 ? 'counterclockwise' : 'clockwise'}
 				</div>
 			</div>
 

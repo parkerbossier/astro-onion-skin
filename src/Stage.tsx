@@ -1,52 +1,62 @@
-import React, { memo, useEffect, useMemo, useRef, useState } from 'react';
+import React, { memo, useEffect, useMemo, useRef } from 'react';
 import { useGesture } from 'react-use-gesture';
+import { WebKitGestureEvent } from 'react-use-gesture/dist/types';
 import styles from './Stage.module.css';
 
 interface IProps {
 	bgImageSrc: string;
+	fgImageLeft: number;
 	fgImageRotation: number;
+	fgImageTop: number;
 	fgImageSrc: string;
+	onChangeFgImageLeft: (v: number) => void;
+	onChangeFgImageRotation: (v: number) => void;
+	onChangeFgImageTop: (v: number) => void;
 }
 
 export const Stage = memo<IProps>(({
 	bgImageSrc,
+	fgImageLeft,
 	fgImageRotation,
-	fgImageSrc
+	fgImageSrc,
+	fgImageTop,
+	onChangeFgImageLeft,
+	onChangeFgImageRotation,
+	onChangeFgImageTop
 }) => {
-	const [fgRot, setFgRot] = useState(0);
-	const [fgX, setFgX] = useState(0);
-	const [fgY, setFgY] = useState(0);
-
-	const gestureStartData = useRef({ left: fgX, rotation: fgRot, top: fgY });
+	const gestureStartData = useRef({ left: 0, rotation: 0, top: 0 });
 	const onGestureStart = () => {
-		gestureStartData.current = { left: fgX, rotation: fgRot, top: fgY };
+		gestureStartData.current = { left: fgImageLeft, rotation: fgImageRotation, top: fgImageTop };
 	};
 
 	const fgRef = useRef<HTMLImageElement>(null);
 
+	// allows proper pinch support
 	useEffect(
 		() => {
-			document.addEventListener('gesturestart', e => e.preventDefault())
-			document.addEventListener('gesturechange', e => e.preventDefault())
+			document.addEventListener('gesturestart', preventDefault);
+			document.addEventListener('gesturechange', preventDefault);
+			document.addEventListener('scroll', preventDefault);
+
+			return () => {
+				document.removeEventListener('gesturestart', preventDefault);
+				document.removeEventListener('gesturechange', preventDefault);
+				document.removeEventListener('scroll', preventDefault);
+			};
 		},
 		[]
 	);
 
-	const fgBind = useGesture(
+	useGesture(
 		{
 			onDragStart: onGestureStart,
 			onDrag: state => {
-				setFgX(gestureStartData.current.left + state.movement[0]);
-				setFgY(gestureStartData.current.top + state.movement[1]);
+				onChangeFgImageLeft(gestureStartData.current.left + state.movement[0]);
+				onChangeFgImageTop(gestureStartData.current.top + state.movement[1]);
 			},
 			onPinchStart: onGestureStart,
 			onPinch: state => {
-				//setFgX(gestureStartData.current.left + state.movement[0]);
-				//setFgY(gestureStartData.current.top + state.movement[1]);
-
-				setFgRot(gestureStartData.current.rotation + state.movement[1])
-				console.log(state.da)
-				console.log(state.movement)
+				onChangeFgImageRotation(gestureStartData.current.rotation + state.movement[1])
 			}
 		},
 		{
@@ -63,11 +73,11 @@ export const Stage = memo<IProps>(({
 
 	const fgStyles = useMemo(
 		() => ({
-			left: `${fgX}px`,
-			top: `${fgY}px`,
+			left: `${fgImageLeft}px`,
+			top: `${fgImageTop}px`,
 			transform: `rotate(${fgImageRotation}deg)`
 		}),
-		[fgImageRotation, fgX, fgY]
+		[fgImageLeft, fgImageRotation, fgImageTop]
 	);
 
 	return (
@@ -94,3 +104,7 @@ export const Stage = memo<IProps>(({
 		</div>
 	);
 });
+
+function preventDefault(e: Event) {
+	e.preventDefault();
+};

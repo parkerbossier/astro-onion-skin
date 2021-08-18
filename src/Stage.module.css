@@ -20,8 +20,9 @@
 	width: 100%;
 	opacity: 0.5;
 	height: 100%;
-	position: absolute;
 	background: green;
+	position: absolute;
+	touch-action: none;
 }
 
 .empty {
