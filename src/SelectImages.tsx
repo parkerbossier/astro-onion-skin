@@ -2,16 +2,16 @@ import React, { ChangeEvent, memo, useMemo } from 'react';
 import styles from './SelectImages.module.css';
 
 interface IProps {
-	image1Src: string;
-	image2Src: string;
+	bgImageSrc: string;
+	fgImageSrc: string;
 	onClose: () => void;
 	onImage1SrcChange: (src: string) => void;
 	onImage2SrcChange: (src: string) => void;
 }
 
 export const SelectImages = memo<IProps>(({
-	image1Src,
-	image2Src,
+	bgImageSrc,
+	fgImageSrc,
 	onClose,
 	onImage1SrcChange,
 	onImage2SrcChange
@@ -32,15 +32,15 @@ export const SelectImages = memo<IProps>(({
 			<div className={styles.dialog}>
 				<div className={styles.inputRow}>
 					<input onChange={onImage1Change} title="Background" type="file" />
-					{image1Src && (
-						<img alt="Background" className={styles.preview} src={image1Src} />
+					{bgImageSrc && (
+						<img alt="Background" className={styles.preview} src={bgImageSrc} />
 					)}
 				</div>
 
 				<div className={styles.inputRow}>
 					<input onChange={onImage2Change} title="Foreground" type="file" />
-					{image2Src && (
-						<img alt="Foreground" className={styles.preview} src={image2Src} />
+					{fgImageSrc && (
+						<img alt="Foreground" className={styles.preview} src={fgImageSrc} />
 					)}
 				</div>
 			</div>

@@ -2,40 +2,68 @@ import React, { useState } from 'react';
 import logo from './logo.svg';
 import styles from './App.module.css';
 import { SelectImages } from './SelectImages';
+import { Stage } from './Stage';
 
 const App = () => {
-	const [image1Src, setImage1Src] = useState('');
-	const [image2Src, setImage2Src] = useState('');
+	const [bgImageSrc, setBgImageSrc] = useState('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVQYV2NgYAAAAAMAAWgmWQ0AAAAASUVORK5CYII=');
+	const [fgImageSrc, setFgImageSrc] = useState('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVQYV2NgYAAAAAMAAWgmWQ0AAAAASUVORK5CYII=');
 
 	const [showSelectImages, setShowSelectImages] = useState(false);
 
+	const [fgRotation, setFgRotation] = useState(0);
+
 	return (
 		<div className={styles.root}>
-			<div className={styles.stageWrapper}>
-				<div className={styles.stageSquare}>
-					<div className={styles.stage}>
-						{image1Src && (
-							<img alt="Background" className={styles.bg} src={image1Src} />
-						)}
-						{image2Src && (
-							<img alt="Foreground" className={styles.fg} src={image1Src} />
-						)}
-					</div>
+			<div className={styles.stageSquare}>
+				<div className={styles.stage}>
+					<Stage
+						bgImageSrc={bgImageSrc}
+						fgImageRotation={fgRotation}
+						fgImageSrc={fgImageSrc}
+					/>
 				</div>
 			</div>
+
 			<div className={styles.controls}>
 				<button onClick={() => { setShowSelectImages(true); }}>
 					Select images
 				</button>
+
+				<br />
+
+				<input
+					className={styles.rotation}
+					max={45}
+					min={-45}
+					onChange={e => { setFgRotation(parseInt(e.currentTarget.value, 10)); }}
+					step={.5}
+					type="range"
+					value={fgRotation}
+				/>
+
+				<button
+					onClick={() => {
+						setFgRotation(0);
+					}}
+				>
+					Reset
+				</button>
+
+				<br />
+
+				<div>
+					Move camera {Math.abs(fgRotation)}&deg;
+					{fgRotation < 0 ? 'counterclockwise' : 'clockwise'}
+				</div>
 			</div>
 
 			{showSelectImages && (
 				<SelectImages
-					image1Src={image1Src}
-					image2Src={image2Src}
+					bgImageSrc={bgImageSrc}
+					fgImageSrc={fgImageSrc}
 					onClose={() => { setShowSelectImages(false); }}
-					onImage1SrcChange={setImage1Src}
-					onImage2SrcChange={setImage2Src}
+					onImage1SrcChange={setBgImageSrc}
+					onImage2SrcChange={setFgImageSrc}
 				/>
 			)}
 		</div>
