@@ -1,6 +1,5 @@
 import React, { memo, useEffect, useMemo, useRef, useState } from 'react';
 import { useGesture } from 'react-use-gesture';
-import { WebKitGestureEvent } from 'react-use-gesture/dist/types';
 import styles from './Stage.module.css';
 
 interface IProps {
@@ -38,12 +37,16 @@ export const Stage = memo<IProps>(({
 		() => {
 			document.addEventListener('gesturestart', preventDefault);
 			document.addEventListener('gesturechange', preventDefault);
-			document.addEventListener('scroll', preventDefault);
+			//document.addEventListener('scroll', preventDefault);
+
+			document.body.addEventListener('touchmove', e => {
+				e.preventDefault();
+			});
 
 			return () => {
 				document.removeEventListener('gesturestart', preventDefault);
 				document.removeEventListener('gesturechange', preventDefault);
-				document.removeEventListener('scroll', preventDefault);
+				//document.removeEventListener('scroll', preventDefault);
 			};
 		},
 		[]
@@ -72,8 +75,8 @@ export const Stage = memo<IProps>(({
 		{
 			onDragStart: onGestureStart,
 			onDrag: state => {
-				onChangeFgImageLeft(gestureStartData.current.left + state.movement[0]/4);
-				onChangeFgImageTop(gestureStartData.current.top + state.movement[1]/4);
+				onChangeFgImageLeft(gestureStartData.current.left + state.movement[0] / 4);
+				onChangeFgImageTop(gestureStartData.current.top + state.movement[1] / 4);
 			},
 			onPinchStart: onGestureStart,
 			onPinch: state => {
@@ -88,7 +91,7 @@ export const Stage = memo<IProps>(({
 			pinch: {
 				enabled: true
 			},
-			domTarget: fgRef
+			domTarget: fgRef.current ?? undefined
 		}
 	);
 
@@ -120,7 +123,7 @@ export const Stage = memo<IProps>(({
 
 			{!bgImageSrc && !fgImageSrc && (
 				<p className={styles.empty}>
-					Tap "Select images" below to upload images
+					Select images below
 				</p>
 			)}
 		</div>

@@ -1,8 +1,13 @@
 .root {
-	height: 100vh;
+	height: 100%;
 	display: flex;
 	background: black;
 	flex-direction: column;
+}
+
+.title {
+	text-align: center;
+	margin: var(--gutter-small) 0;
 }
 
 .stageSquare {
@@ -20,7 +25,29 @@
 
 .controls {
 	flex: 1;
+	padding: var(--gutter-small);
+	overflow-y: auto;
 }
+
+.card {
+	background: var(--color-surface);
+	border-radius: var(--border-radius);
+	padding: var(--gutter);
+}
+
+.card+.card {
+	margin-top: var(--gutter-small);
+}
+
+.card_title {
+	color: var(--color-text-secondary);
+	margin-bottom: var(--gutter-small);
+}
+
+.imageInput + .imageInput {
+	margin-left: var(--gutter);
+}
+
 .rotation {
 	width: 100%;
 }
