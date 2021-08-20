@@ -1,6 +1,6 @@
 .root {
-	height: 100%;
 	display: flex;
+	height: 100%;
 	background: black;
 	flex-direction: column;
 }
@@ -16,27 +16,30 @@
 }
 
 .stage {
+	position: absolute;
 	top: 0;
 	left: 0;
 	width: 100%;
 	height: 100%;
-	position: absolute;
 }
 
+/* #region controls */
+
 .controls {
+	display: grid;
 	flex: 1;
-	padding: var(--gutter-small);
+	grid-template-columns: 1fr auto;
+	grid-auto-rows: min-content;
 	overflow-y: auto;
+	padding: var(--gutter-small);
+	grid-gap: var(--gutter-small);
+	grid-auto-rows: min-content;
 }
 
 .card {
+	padding: var(--gutter);
 	background: var(--color-surface);
 	border-radius: var(--border-radius);
-	padding: var(--gutter);
-}
-
-.card+.card {
-	margin-top: var(--gutter-small);
 }
 
 .card_title {
@@ -44,10 +47,33 @@
 	margin-bottom: var(--gutter-small);
 }
 
+.card__images {
+	grid-column: 1;
+}
+
 .imageInput + .imageInput {
 	margin-left: var(--gutter);
 }
 
+.blink {
+	width: 70px;
+	height: 70px;
+	border-radius: var(--border-radius);
+	border: 1px solid var(--color-text);
+}
+
+.card__rotation {
+	grid-column: 1 / -1;
+}
 .rotation {
 	width: 100%;
 }
+
+.card__opacity {
+	grid-column: 1 / -1;
+}
+.opacity {
+	width: 100%;
+}
+
+/* #endregion controls */

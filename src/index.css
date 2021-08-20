@@ -33,3 +33,8 @@ code {
 * {
 	box-sizing: border-box;
 }
+
+button {
+	background: none;
+	color: inherit;
+}

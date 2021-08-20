@@ -66,6 +66,7 @@ export const Stage = memo<IProps>(({
 			);
 			return () => {
 				clearInterval(interval);
+				setShowFgImage(true);
 			}
 		},
 		[blink]
