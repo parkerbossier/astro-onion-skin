@@ -1,10 +1,11 @@
-import React, { memo, useEffect, useMemo, useRef } from 'react';
+import React, { memo, useEffect, useMemo, useRef, useState } from 'react';
 import { useGesture } from 'react-use-gesture';
 import { WebKitGestureEvent } from 'react-use-gesture/dist/types';
 import styles from './Stage.module.css';
 
 interface IProps {
 	bgImageSrc: string;
+	blink: boolean;
 	fgImageLeft: number;
 	fgImageRotation: number;
 	fgImageTop: number;
@@ -16,6 +17,7 @@ interface IProps {
 
 export const Stage = memo<IProps>(({
 	bgImageSrc,
+	blink,
 	fgImageLeft,
 	fgImageRotation,
 	fgImageSrc,
@@ -47,12 +49,31 @@ export const Stage = memo<IProps>(({
 		[]
 	);
 
+	const [showFgImage, setShowFgImage] = useState(true);
+	useEffect(
+		() => {
+			if (!blink)
+				return;
+
+			const interval = setInterval(
+				() => {
+					setShowFgImage(s => !s);
+				},
+				200
+			);
+			return () => {
+				clearInterval(interval);
+			}
+		},
+		[blink]
+	);
+
 	useGesture(
 		{
 			onDragStart: onGestureStart,
 			onDrag: state => {
-				onChangeFgImageLeft(gestureStartData.current.left + state.movement[0]);
-				onChangeFgImageTop(gestureStartData.current.top + state.movement[1]);
+				onChangeFgImageLeft(gestureStartData.current.left + state.movement[0]/4);
+				onChangeFgImageTop(gestureStartData.current.top + state.movement[1]/4);
 			},
 			onPinchStart: onGestureStart,
 			onPinch: state => {
@@ -74,10 +95,11 @@ export const Stage = memo<IProps>(({
 	const fgStyles = useMemo(
 		() => ({
 			left: `${fgImageLeft}px`,
+			opacity: showFgImage ? .5 : 0,
 			top: `${fgImageTop}px`,
 			transform: `rotate(${fgImageRotation}deg)`
 		}),
-		[fgImageLeft, fgImageRotation, fgImageTop]
+		[fgImageLeft, fgImageRotation, fgImageTop, showFgImage]
 	);
 
 	return (

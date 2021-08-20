@@ -11,6 +11,8 @@ const App = () => {
 	const [fgImageSrc, setFgImageSrc] = useState('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVQYV2NgYAAAAAMAAWgmWQ0AAAAASUVORK5CYII=');
 	const [fgImageTop, setFgImageTop] = useState(0);
 
+	const [blink, setBlink] = useState(false);
+
 	const [showSelectImages, setShowSelectImages] = useState(false);
 
 	return (
@@ -19,6 +21,7 @@ const App = () => {
 				<div className={styles.stage}>
 					<Stage
 						bgImageSrc={bgImageSrc}
+						blink={blink}
 						fgImageLeft={fgImageLeft}
 						fgImageRotation={fgImageRotation}
 						fgImageSrc={fgImageSrc}
@@ -63,6 +66,13 @@ const App = () => {
 					Move camera {Math.abs(Math.round(fgImageRotation))}&deg;
 					{fgImageRotation < 0 ? 'counterclockwise' : 'clockwise'}
 				</div>
+
+				<br />
+				<button
+					onClick={() => { setBlink(b => !b); }}
+				>
+					Blink
+				</button>
 			</div>
 
 			{showSelectImages && (
