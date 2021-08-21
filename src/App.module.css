@@ -13,24 +13,56 @@
 .stageSquare {
 	position: relative;
 	padding-bottom: 100%;
+	overflow: hidden;
 }
 
+/* #region stage */
+
 .stage {
+	display: flex;
 	position: absolute;
 	top: 0;
 	left: 0;
 	width: 100%;
 	height: 100%;
+	overflow: hidden;
+	align-items: center;
+	justify-content: center;
 }
+.stage_bg {
+	width: 100%;
+	height: 100%;
+}
+.stage_fg {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	opacity: 0.5;
+	height: 100%;
+	touch-action: none;
+}
+.stage_empty {
+	margin: 16px;
+	line-height: 1.4;
+}
+.stage_empty_button {
+	text-decoration: underline;
+	border: none;
+}
+
+/* #endregion stage */
 
 /* #region controls */
 
 .controls {
-	display: grid;
+	overflow-y: auto;
 	flex: 1;
+}
+.controls_inner {
+	display: grid;
 	grid-template-columns: 1fr auto;
 	grid-auto-rows: min-content;
-	overflow-y: auto;
 	padding: var(--gutter-small);
 	grid-gap: var(--gutter-small);
 	grid-auto-rows: min-content;
@@ -41,10 +73,14 @@
 	background: var(--color-surface);
 	border-radius: var(--border-radius);
 }
-
 .card_title {
+	display: flex;
 	color: var(--color-text-secondary);
 	margin-bottom: var(--gutter-small);
+	justify-content: space-between;
+}
+.card_subtitle {
+	color: var(--color-text);
 }
 
 .card__images {
@@ -61,19 +97,21 @@
 	border-radius: var(--border-radius);
 	border: 1px solid var(--color-text);
 }
+.blink__active {
+	background: #373737;
+}
 
-.card__rotation {
+.card__slider {
 	grid-column: 1 / -1;
 }
-.rotation {
+.slider {
 	width: 100%;
 }
 
-.card__opacity {
+.card__button {
 	grid-column: 1 / -1;
-}
-.opacity {
-	width: 100%;
+	height: 70px;
+	border: none;
 }
 
 /* #endregion controls */
