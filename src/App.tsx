@@ -17,7 +17,7 @@ const defaultFgProps = {
 
 const App = () => {
 	const [bgImageSrc, setBgImageSrc] = useState('');
-
+	const [blink, setBlink] = useState(false);
 	const [fgImageContrast, setFgImageContrast] = useState(defaultFgProps.contrast);
 	const [fgImageLeft, setFgImageLeft] = useState(defaultFgProps.left);
 	const [fgImageOpacity, setFgImageOpacity] = useState(defaultFgProps.opacity);
@@ -26,60 +26,31 @@ const App = () => {
 	const [fgImageSrc, setFgImageSrc] = useState('');
 	const [fgImageTop, setFgImageTop] = useState(defaultFgProps.top);
 
-	// #region blink
-
-	const [blink, setBlink] = useState(false);
-	const [showFgImage, setShowFgImage] = useState(true);
-	useEffect(() => {
-		return;
-
-		if (!blink) return;
-
-		const interval = setInterval(() => {
-			setShowFgImage(s => !s);
-		}, 100);
-		return () => {
-			clearInterval(interval);
-			setShowFgImage(true);
-		};
-	}, [blink]);
-
-	// #endregion blink
+	const imagesSelected = bgImageSrc && fgImageSrc;
 
 	// #region stage
 
-	const gestureStartData = useRef({ left: 0, rotation: 0, top: 0 });
+	const gestureStartData = useRef({ left: 0, top: 0 });
 	const onGestureStart = () => {
 		gestureStartData.current = {
 			left: fgImageLeft,
-			rotation: fgImageRotation,
 			top: fgImageTop
 		};
 	};
 
-	const fgRef = useRef<HTMLImageElement>(null);
-
-	useGesture(
+	const fgImageBind = useGesture(
 		{
 			onDragStart: onGestureStart,
 			onDrag: state => {
 				setFgImageLeft(gestureStartData.current.left + state.movement[0] / 4);
 				setFgImageTop(gestureStartData.current.top + state.movement[1] / 4);
-			},
-			onPinchStart: onGestureStart,
-			onPinch: state => {
-				setFgImageRotation(gestureStartData.current.rotation + state.movement[1]);
 			}
 		},
 		{
 			enabled: true,
 			drag: {
 				useTouch: true
-			},
-			pinch: {
-				enabled: true
-			},
-			domTarget: fgRef.current ?? undefined
+			}
 		}
 	);
 
@@ -133,9 +104,9 @@ const App = () => {
 							onContextMenu={e => {
 								e.preventDefault();
 							}}
-							ref={fgRef}
 							src={fgImageSrc}
 							style={fgImageStyles}
+							{...fgImageBind()}
 						/>
 					)}
 
@@ -182,6 +153,7 @@ const App = () => {
 
 						<button
 							className={c(styles.blink, blink && styles.blink__active)}
+							disabled={!imagesSelected}
 							onContextMenu={e => {
 								e.preventDefault();
 							}}
@@ -189,7 +161,7 @@ const App = () => {
 								setBlink(false);
 							}}
 							onTouchStart={() => {
-								setBlink(true);
+								if (imagesSelected) setBlink(true);
 							}}
 						>
 							Blink
@@ -208,6 +180,7 @@ const App = () => {
 
 						<input
 							className={styles.slider}
+							disabled={!imagesSelected}
 							max={45}
 							min={-45}
 							onChange={e => {
@@ -224,6 +197,7 @@ const App = () => {
 
 						<input
 							className={styles.slider}
+							disabled={!imagesSelected}
 							max={2}
 							min={1}
 							onChange={e => {
@@ -240,6 +214,7 @@ const App = () => {
 
 						<input
 							className={styles.slider}
+							disabled={!imagesSelected}
 							max={1}
 							min={0}
 							onChange={e => {
@@ -256,6 +231,7 @@ const App = () => {
 
 						<input
 							className={styles.slider}
+							disabled={!imagesSelected}
 							max={2}
 							min={1}
 							onChange={e => {
@@ -269,6 +245,7 @@ const App = () => {
 
 					<button
 						className={c(styles.card, styles.card__button)}
+						disabled={!imagesSelected}
 						onClick={() => {
 							setFgImageContrast(defaultFgProps.contrast);
 							setFgImageLeft(defaultFgProps.left);

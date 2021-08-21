@@ -29,17 +29,18 @@
 	align-items: center;
 	justify-content: center;
 }
-.stage_bg {
+.stage_bg,
+.stage_fg {
 	width: 100%;
+	object-fit: cover;
+	object-position: 50% 50%;
 	height: 100%;
 }
 .stage_fg {
 	position: absolute;
 	top: 0;
 	left: 0;
-	width: 100%;
 	opacity: 0.5;
-	height: 100%;
 	touch-action: none;
 }
 .stage_empty {
