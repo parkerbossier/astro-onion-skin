@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "astro-onion-skin",
+  "name": "astro-onion-skin",
   "icons": [
     {
       "src": "favicon.ico",
