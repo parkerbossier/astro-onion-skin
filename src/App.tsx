@@ -1,5 +1,5 @@
 import c from 'classnames';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { useGesture } from 'react-use-gesture';
 import styles from './App.module.css';
 import { ImageInput } from './ImageInput';
@@ -54,23 +54,6 @@ const App = () => {
 		}
 	);
 
-	// allows proper pinch support
-	useEffect(() => {
-		document.addEventListener('gesturestart', preventDefault);
-		document.addEventListener('gesturechange', preventDefault);
-		//document.addEventListener('scroll', preventDefault);
-
-		document.body.addEventListener('touchmove', e => {
-			e.preventDefault();
-		});
-
-		return () => {
-			document.removeEventListener('gesturestart', preventDefault);
-			document.removeEventListener('gesturechange', preventDefault);
-			//document.removeEventListener('scroll', preventDefault);
-		};
-	}, []);
-
 	const stageStyles = useMemo(
 		() => ({
 			transform: `scale(${fgImageScale})`
@@ -94,8 +77,10 @@ const App = () => {
 		<div className={styles.root}>
 			<h1 className={styles.title}>astro-onion-skin</h1>
 
+			{/* stage */}
 			<div className={styles.stageSquare}>
 				<div className={styles.stage} style={stageStyles}>
+					{/* images */}
 					{bgImageSrc && <img alt="Background" className={styles.stage_bg} src={bgImageSrc} />}
 					{fgImageSrc && (
 						<img
@@ -110,6 +95,7 @@ const App = () => {
 						/>
 					)}
 
+					{/* empty */}
 					{!bgImageSrc && !fgImageSrc && (
 						<p className={styles.stage_empty}>
 							Select images below,
@@ -129,8 +115,10 @@ const App = () => {
 				</div>
 			</div>
 
+			{/* controls */}
 			<div className={styles.controls}>
 				<div className={styles.controls_inner}>
+					{/* images */}
 					<div className={c(styles.card, styles.card__images)}>
 						<div className={styles.card_title}>Images</div>
 
@@ -148,6 +136,7 @@ const App = () => {
 						/>
 					</div>
 
+					{/* blink */}
 					<div className={styles.card}>
 						<div className={styles.card_title}>Blink</div>
 
@@ -168,9 +157,11 @@ const App = () => {
 						</button>
 					</div>
 
+					{/* rotation */}
 					<div className={c(styles.card, styles.card__slider)}>
 						<div className={styles.card_title}>
-							FG Rotation
+							<div id="sliderlabel_rotation">FG Rotation</div>
+
 							<div className={styles.card_subtitle}>
 								Rotate camera {Math.abs(fgImageRotation).toFixed(1)}
 								&deg;&nbsp;
@@ -179,6 +170,7 @@ const App = () => {
 						</div>
 
 						<input
+							aria-labelledby="sliderlabel_rotation"
 							className={styles.slider}
 							disabled={!imagesSelected}
 							max={45}
@@ -192,10 +184,14 @@ const App = () => {
 						/>
 					</div>
 
+					{/* zoom */}
 					<div className={c(styles.card, styles.card__slider)}>
-						<div className={styles.card_title}>Zoom</div>
+						<div className={styles.card_title} id="sliderlabel_zoom">
+							Zoom
+						</div>
 
 						<input
+							aria-labelledby="sliderlabel_zoom"
 							className={styles.slider}
 							disabled={!imagesSelected}
 							max={2}
@@ -209,10 +205,14 @@ const App = () => {
 						/>
 					</div>
 
+					{/* opacity */}
 					<div className={c(styles.card, styles.card__slider)}>
-						<div className={styles.card_title}>FG Opacity</div>
+						<div className={styles.card_title} id="sliderlabel_opacity">
+							FG Opacity
+						</div>
 
 						<input
+							aria-labelledby="sliderlabel_opacity"
 							className={styles.slider}
 							disabled={!imagesSelected}
 							max={1}
@@ -226,10 +226,14 @@ const App = () => {
 						/>
 					</div>
 
+					{/* contrast */}
 					<div className={c(styles.card, styles.card__slider)}>
-						<div className={styles.card_title}>FG Contrast</div>
+						<div className={styles.card_title} id="sliderlabel_contrast">
+							FG Contrast
+						</div>
 
 						<input
+							aria-labelledby="sliderlabel_contrast"
 							className={styles.slider}
 							disabled={!imagesSelected}
 							max={2}
@@ -243,6 +247,7 @@ const App = () => {
 						/>
 					</div>
 
+					{/* reset */}
 					<button
 						className={c(styles.card, styles.card__button)}
 						disabled={!imagesSelected}
@@ -262,9 +267,5 @@ const App = () => {
 		</div>
 	);
 };
-
-function preventDefault(e: Event) {
-	e.preventDefault();
-}
 
 export default App;

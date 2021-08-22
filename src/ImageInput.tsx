@@ -23,12 +23,7 @@ export const ImageInput = memo<IProps>(({
 			<input
 				className={styles.input}
 				onChange={e => {
-					const file = e.currentTarget.files?.[0];
-					if (!file)
-						return;
-
-						console.log(file)
-
+					const file = e.currentTarget.files?.[0]!;
 					const reader = new FileReader();
 					reader.onloadend = () => {
 						const base64String = (reader.result as string);

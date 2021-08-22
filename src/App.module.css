@@ -99,7 +99,7 @@
 	border: 1px solid var(--color-text);
 }
 .blink__active {
-	background: #373737;
+	background: var(--color-active);
 }
 
 .card__slider {

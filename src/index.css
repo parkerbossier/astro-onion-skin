@@ -12,12 +12,13 @@ body {
 
 body {
 	--border-radius: 5px;
+	--color-active: #373737;
 	--color-background: #000;
 	--color-surface: #1e1e1e;
 	--color-text-secondary: #939393;
 	--color-text: #fff;
-	--gutter: 16px;
 	--gutter-small: 8px;
+	--gutter: 16px;
 
 	color: var(--color-text);
 }
