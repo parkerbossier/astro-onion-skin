@@ -1,7 +1,8 @@
 import c from 'classnames';
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { useGesture } from 'react-use-gesture';
 import styles from './App.module.css';
+import { HelpDialog } from './HelpDialog';
 import { ImageInput } from './ImageInput';
 import demoBgUrl from './img/bg.jpg';
 import demoFgUrl from './img/fg.jpg';
@@ -25,6 +26,11 @@ const App = () => {
 	const [fgImageScale, setFgImageScale] = useState(defaultFgProps.scale);
 	const [fgImageSrc, setFgImageSrc] = useState('');
 	const [fgImageTop, setFgImageTop] = useState(defaultFgProps.top);
+
+	const [showHelp, setShowHelp] = useState(false);
+	const closeHelp = useCallback(() => {
+		setShowHelp(false);
+	}, []);
 
 	const imagesSelected = bgImageSrc && fgImageSrc;
 
@@ -264,6 +270,8 @@ const App = () => {
 					</button>
 				</div>
 			</div>
+
+			{showHelp && <HelpDialog onClose={closeHelp} />}
 		</div>
 	);
 };
