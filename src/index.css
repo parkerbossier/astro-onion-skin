@@ -20,6 +20,7 @@ body {
 	--gutter-small: 8px;
 	--gutter: 16px;
 
+	background: var(--color-background);
 	color: var(--color-text);
 }
 

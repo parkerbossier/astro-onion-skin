@@ -2,31 +2,23 @@
 	display: flex;
 	flex-direction: column;
 	height: 100%;
-	background: black;
 }
 
 .title {
 	text-align: center;
 }
 
-.stageSquare {
-	position: relative;
-	overflow: hidden;
-	padding-bottom: 100%;
-}
-
 /* #region stage */
 
 .stage {
-	position: absolute;
-	top: 0;
-	left: 0;
-	display: flex;
 	overflow: hidden;
+}
+.stage_inner {
+	display: flex;
 	align-items: center;
 	justify-content: center;
-	width: 100%;
-	height: 100%;
+	width: 100vw;
+	height: 100vw;
 }
 .stage_bg,
 .stage_fg {
@@ -51,6 +43,19 @@
 }
 
 /* #endregion stage */
+
+@media (orientation: landscape) {
+	.root {
+		flex-direction: row;
+	}
+	.title {
+		display: none;
+	}
+	.stage_inner {
+		width: 100vh;
+		height: 100vh;
+	}
+}
 
 /* #region controls */
 

@@ -84,8 +84,8 @@ const App = () => {
 			<h1 className={styles.title}>astro-onion-skin</h1>
 
 			{/* stage */}
-			<div className={styles.stageSquare}>
-				<div className={styles.stage} style={stageStyles}>
+			<div className={styles.stage}>
+				<div className={styles.stage_inner} style={stageStyles}>
 					{/* images */}
 					{bgImageSrc && <img alt="Background" className={styles.stage_bg} src={bgImageSrc} />}
 					{fgImageSrc && (
