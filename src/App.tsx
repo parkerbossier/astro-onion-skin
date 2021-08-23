@@ -124,43 +124,45 @@ const App = () => {
 			{/* controls */}
 			<div className={styles.controls}>
 				<div className={styles.controls_inner}>
-					{/* images */}
-					<div className={c(styles.card, styles.card__images)}>
-						<div className={styles.card_title}>Images</div>
+					<div className={styles.controls_imagesRow}>
+						{/* images */}
+						<div className={styles.card}>
+							<div className={styles.card_title}>Images</div>
 
-						<ImageInput
-							className={styles.imageInput}
-							imageSrc={bgImageSrc}
-							onChange={setBgImageSrc}
-							title="BG"
-						/>
-						<ImageInput
-							className={styles.imageInput}
-							imageSrc={fgImageSrc}
-							onChange={setFgImageSrc}
-							title="FG"
-						/>
-					</div>
+							<ImageInput
+								className={styles.imageInput}
+								imageSrc={bgImageSrc}
+								onChange={setBgImageSrc}
+								title="BG"
+							/>
+							<ImageInput
+								className={styles.imageInput}
+								imageSrc={fgImageSrc}
+								onChange={setFgImageSrc}
+								title="FG"
+							/>
+						</div>
 
-					{/* blink */}
-					<div className={styles.card}>
-						<div className={styles.card_title}>Blink</div>
+						{/* blink */}
+						<div className={styles.card}>
+							<div className={styles.card_title}>Blink</div>
 
-						<button
-							className={c(styles.blink, blink && styles.blink__active)}
-							disabled={!imagesSelected}
-							onContextMenu={e => {
-								e.preventDefault();
-							}}
-							onTouchEnd={() => {
-								setBlink(false);
-							}}
-							onTouchStart={() => {
-								if (imagesSelected) setBlink(true);
-							}}
-						>
-							Blink
-						</button>
+							<button
+								className={c(styles.blink, blink && styles.blink__active)}
+								disabled={!imagesSelected}
+								onContextMenu={e => {
+									e.preventDefault();
+								}}
+								onTouchEnd={() => {
+									setBlink(false);
+								}}
+								onTouchStart={() => {
+									if (imagesSelected) setBlink(true);
+								}}
+							>
+								Blink
+							</button>
+						</div>
 					</div>
 
 					{/* rotation */}
@@ -253,21 +255,32 @@ const App = () => {
 						/>
 					</div>
 
-					{/* reset */}
-					<button
-						className={c(styles.card, styles.card__button)}
-						disabled={!imagesSelected}
-						onClick={() => {
-							setFgImageContrast(defaultFgProps.contrast);
-							setFgImageLeft(defaultFgProps.left);
-							setFgImageOpacity(defaultFgProps.opacity);
-							setFgImageRotation(defaultFgProps.rotation);
-							setFgImageScale(defaultFgProps.scale);
-							setFgImageTop(defaultFgProps.top);
-						}}
-					>
-						Reset
-					</button>
+					<div className={styles.controls_aboutReset}>
+						{/* help */}
+						<button
+							className={c(styles.card, styles.card__button)}
+							onClick={() => {
+								setShowHelp(true);
+							}}
+						>
+							About
+						</button>
+
+						{/* reset */}
+						<button
+							className={c(styles.card, styles.card__button)}
+							onClick={() => {
+								setFgImageContrast(defaultFgProps.contrast);
+								setFgImageLeft(defaultFgProps.left);
+								setFgImageOpacity(defaultFgProps.opacity);
+								setFgImageRotation(defaultFgProps.rotation);
+								setFgImageScale(defaultFgProps.scale);
+								setFgImageTop(defaultFgProps.top);
+							}}
+						>
+							Reset
+						</button>
+					</div>
 				</div>
 			</div>
 

@@ -47,7 +47,6 @@
 	line-height: 1.4;
 }
 .stage_empty_button {
-	border: none;
 	text-decoration: underline;
 }
 
@@ -62,7 +61,7 @@
 .controls_inner {
 	display: grid;
 	padding: var(--gutter-small);
-	grid-template-columns: 1fr auto;
+	grid-template-columns: 100%;
 	grid-auto-rows: min-content;
 	gap: var(--gutter-small);
 	grid-auto-rows: min-content;
@@ -83,14 +82,14 @@
 	color: var(--color-text);
 }
 
-.card__images {
-	grid-column: 1;
+.controls_imagesRow {
+	display: grid;
+	grid-template-columns: 1fr auto;
+	gap: var(--gutter-small);
 }
-
 .imageInput + .imageInput {
 	margin-left: var(--gutter);
 }
-
 .blink {
 	width: 70px;
 	height: 70px;
@@ -108,10 +107,14 @@
 	width: 100%;
 }
 
+.controls_aboutReset {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: var(--gutter-small);
+}
+
 .card__button {
 	height: 70px;
-	border: none;
-	grid-column: 1 / -1;
 }
 
 /* #endregion controls */
