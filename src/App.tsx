@@ -23,6 +23,7 @@ const App = () => {
 	const [fgImageLeft, setFgImageLeft] = useState(defaultFgProps.left);
 	const [fgImageOpacity, setFgImageOpacity] = useState(defaultFgProps.opacity);
 	const [fgImageRotation, setFgImageRotation] = useState(defaultFgProps.rotation);
+	const [fgImageRotationOffset, setFgImageRotationOffset] = useState(0);
 	const [fgImageScale, setFgImageScale] = useState(defaultFgProps.scale);
 	const [fgImageSrc, setFgImageSrc] = useState('');
 	const [fgImageTop, setFgImageTop] = useState(defaultFgProps.top);
@@ -173,7 +174,8 @@ const App = () => {
 							<div className={styles.card_subtitle}>
 								Rotate camera {Math.abs(fgImageRotation).toFixed(1)}
 								&deg;&nbsp;
-								{fgImageRotation < 0 ? 'CCW' : 'CW'}
+								{/* if the fg rotation is < 0, then the fg needs > 0 rotation to match the bg */}
+								{fgImageRotation < 0 ? 'CW' : 'CCW'}
 							</div>
 						</div>
 
