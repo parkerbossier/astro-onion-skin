@@ -22,11 +22,18 @@ const App = () => {
 	const [fgImageContrast, setFgImageContrast] = useState(defaultFgProps.contrast);
 	const [fgImageLeft, setFgImageLeft] = useState(defaultFgProps.left);
 	const [fgImageOpacity, setFgImageOpacity] = useState(defaultFgProps.opacity);
-	const [fgImageRotation, setFgImageRotation] = useState(defaultFgProps.rotation);
-	const [fgImageRotationOffset, setFgImageRotationOffset] = useState(0);
 	const [fgImageScale, setFgImageScale] = useState(defaultFgProps.scale);
 	const [fgImageSrc, setFgImageSrc] = useState('');
 	const [fgImageTop, setFgImageTop] = useState(defaultFgProps.top);
+
+	const [fgImageRotation, setFgImageRotation] = useState(defaultFgProps.rotation);
+	const [fgImageRotationOffset, setFgImageRotationOffset] = useState(0);
+	const fgIncrementRotation = (direction: 'cw' | 'ccw') => {
+		const increment = direction === 'cw' ? 45 : -45;
+		const newOffset = (fgImageRotationOffset + increment) % 360;
+		setFgImageRotation(newOffset);
+		setFgImageRotationOffset(newOffset);
+	};
 
 	const [showHelp, setShowHelp] = useState(false);
 	const closeHelp = useCallback(() => {
@@ -179,19 +186,41 @@ const App = () => {
 							</div>
 						</div>
 
-						<input
-							aria-labelledby="sliderlabel_rotation"
-							className={styles.slider}
-							disabled={!imagesSelected}
-							max={45}
-							min={-45}
-							onChange={e => {
-								setFgImageRotation(parseFloat(e.currentTarget.value));
-							}}
-							step={0.25}
-							type="range"
-							value={fgImageRotation}
-						/>
+						<div className={styles.rotationInputGroup}>
+							<button
+								disabled={!imagesSelected}
+								onClick={() => {
+									fgIncrementRotation('ccw');
+								}}
+								title="Rotate FG 45° CCW"
+							>
+								&lt;
+							</button>
+
+							<input
+								aria-labelledby="sliderlabel_rotation"
+								className={styles.slider}
+								disabled={!imagesSelected}
+								max={fgImageRotationOffset + 45 / 2}
+								min={fgImageRotationOffset - 45 / 2}
+								onChange={e => {
+									setFgImageRotation(parseFloat(e.currentTarget.value));
+								}}
+								step={0.25}
+								type="range"
+								value={fgImageRotation}
+							/>
+
+							<button
+								disabled={!imagesSelected}
+								onClick={() => {
+									fgIncrementRotation('cw');
+								}}
+								title="Rotate FG 45°CW"
+							>
+								&gt;
+							</button>
+						</div>
 					</div>
 
 					{/* zoom */}
@@ -276,6 +305,7 @@ const App = () => {
 								setFgImageLeft(defaultFgProps.left);
 								setFgImageOpacity(defaultFgProps.opacity);
 								setFgImageRotation(defaultFgProps.rotation);
+								setFgImageRotationOffset(0);
 								setFgImageScale(defaultFgProps.scale);
 								setFgImageTop(defaultFgProps.top);
 							}}

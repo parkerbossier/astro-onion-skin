@@ -112,6 +112,19 @@
 	width: 100%;
 }
 
+.rotationInputGroup {
+	display: flex;
+}
+.rotationInputGroup button:first-child {
+	padding-right: var(--gutter-small);
+}
+.rotationInputGroup button:last-child {
+	padding-left: var(--gutter-small);
+}
+.rotationInputGroup .slider {
+	flex: 1;
+}
+
 .controls_aboutReset {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
