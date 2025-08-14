@@ -1,5 +1,5 @@
 import c from 'classnames';
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { useGesture } from 'react-use-gesture';
 import styles from './App.module.css';
 import { HelpDialog } from './HelpDialog';
